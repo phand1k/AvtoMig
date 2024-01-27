@@ -1,0 +1,244 @@
+﻿@model MainWebApplication.Areas.Wash.Models.WashService
+@if (ViewData["SalaryIsNull"] != null)
+{
+    <p class="alert alert-danger" id="successMessage">
+        Для данного
+        мастера не назначена зарплата, введите  зарплату в процентах (%) или 
+        в тенге
+
+    </p>
+    <div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddServiceWash">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ServiceId" class="control-label"></label>
+                <select id="ServiceId"  asp-for="ServiceId" class ="form-control" asp-items="ViewBag.Services" >
+                    <option>
+                        Выберите услугу
+                    </option>
+                    </select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+            </div>
+                <div class="form-group">
+                    <label asp-for="Service.Price" class="control-label"></label>
+                    <div class="form-control" id="service-price">
+                        Выберите услугу
+                    </div>
+                </div>
+            <div class="form-group">
+                <label asp-for="AspNetUserId" class="control-label"></label>
+                <select id="AspNetUserId"  asp-for="AspNetUserId" class ="form-control" asp-items="ViewBag.Users" >
+                    <option selected>
+                        Выберите мастера
+                    </option>
+                    </select>
+                <span asp-validation-for="AspNetUserId" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="SalaryMasterStr" class="control-label"></label>
+                <input asp-for="SalaryMasterStr" class="form-control" />
+                <span asp-validation-for="SalaryMasterStr" class="text-danger"></span>
+            </div>
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+               Назначить зарплату
+           </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Оповещание</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          Сохранить данную зарплату мастеру за услугу как постоянную?
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Нет, продолжить без сохранения</button>
+        <form asp-action="CreateSalaryMasterFromAddServiceWash" asp-route-id="@Model.Id" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        Сохранить
+                    </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Назад в список</a>
+</div>
+<script src="/lib/jquery/dist/jquery.js"></script>
+<hr/>
+    <h4>Заказ-наряды на авто</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Service.Name)
+                </th>
+                 <th>
+                    Цена
+                </th>
+                <th>
+                    Ответственный мастер
+                </th>
+                <th>
+                    Зарплата
+                </th>
+                <th>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    Действия
+                </div>
+                </th>
+            </tr>
+            @foreach (var item in ViewBag.Orders)
+            {
+                <tr>
+                    <td>
+                        @item.NameService
+                    </td>
+                    <td>
+                        @item.Price ₸
+                    </td>
+                    <td>
+                        @item.NameMaster
+                    </td>
+                    <td>
+                        @item.SalaryMaster ₸
+                    </td>
+                    <td>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <form asp-action="EditServiceWash" asp-route-id="@item.Id" method="get">
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                Редактировать
+                            </button>
+                        </form>
+                        <form asp-action="DeleteServiceWash" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                Удалить
+                            </button>
+                        </form>
+                    </div>
+                         
+                    </td>
+                </tr>
+            }
+    </table>
+<hr />
+}
+else
+{
+    <h4>Заказ-наряды на авто</h4>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Service.Name)
+            </th>
+            <th>
+                Цена
+            </th>
+            <th>
+                Ответственный мастер
+            </th>
+            <th>
+                Зарплата
+            </th>
+            <th>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    Действия
+                </div>
+            </th>
+        </tr>
+        @foreach (var item in ViewBag.Orders)
+        {
+            <tr>
+                <td>
+                    @item.NameService
+                </td>
+                <td>
+                    @item.Price ₸
+                </td>
+                <td>
+                    @item.NameMaster
+                </td>
+                <td>
+                    @item.SalaryMaster ₸
+                </td>
+                <td>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <form asp-action="EditServiceWash" asp-route-id="@item.Id" method="get">
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                Редактировать
+                            </button>
+                        </form>
+                        <form asp-action="DeleteServiceWash" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                Удалить
+                            </button>
+                        </form>
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </table>
+<h4>Добавление услуги для заказ-наряда</h4>
+<hr />
+     <div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddServiceWash">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ServiceId" class="control-label"></label>
+                <select id="ServiceId"  asp-for="ServiceId" class ="form-control" asp-items="ViewBag.Services" >
+                    <option value="">
+                        Выберите услугу
+                    </option>
+                    </select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+            </div>
+                <div class="form-group">
+                    <label asp-for="Service.Price" class="control-label"></label>
+                    <div class="form-control" id="service-price">
+                        Выберите услугу
+                    </div>
+                </div>
+            <div class="form-group">
+                <label asp-for="AspNetUserId" class="control-label"></label>
+                <select id="AspNetUserId"  asp-for="AspNetUserId" class ="form-control" asp-items="ViewBag.Users" >
+                    <option value="null" selected>
+                        
+                    </option>
+                    </select>
+                <span asp-validation-for="AspNetUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Назад в список</a>
+</div>
+<script src="/lib/jquery/dist/jquery.js"></script>
+}
+<script>
+    $(function () {
+        $('#ServiceId').change(function () {
+            var serviceId = $(this).val();
+            $.ajax({
+                url: '/Home/GetServicePrice/' + serviceId,
+                type: 'GET',
+                success: function (data) {
+                    $('#service-price').text(data.price);
+                },
+                error: function () {
+                    $('#service-price').text("Цена не определена");
+                }
+            });
+        });
+    });
+</script>

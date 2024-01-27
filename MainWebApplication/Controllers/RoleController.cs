@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using MainWebApplication.Models;
 using MainWebApplication.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace MainWebApplication.Controllers
 {
@@ -10,6 +12,17 @@ namespace MainWebApplication.Controllers
     {
         private UserManager<AspNetUser> userManager;
         private RoleManager<IdentityRole> roleManager;
+        public async Task<IActionResult> SendMessage(string message)
+        {
+            using (var client = new HttpClient())
+            {
+                var botToken = "5806886891:AAHWpSIY84Eu7FmfgbO1hs0vb9Mf0_dhXgk";
+                var botUrl = $"https://api.telegram.org/bot{botToken}/sendMessage?chat_id=your-chat-id&text={message}";
+                var response = await client.GetAsync(botUrl);
+                response.EnsureSuccessStatusCode();
+            }
+            return Ok();
+        }
 
         public ViewResult Index() => View(roleManager.Roles);
         [HttpPost]
@@ -49,58 +62,29 @@ namespace MainWebApplication.Controllers
             roleManager = roleMgr;
             userManager = userMrg;
         }
- 
+
         // other methods
- 
+
         public async Task<IActionResult> Update(string id)
         {
             IdentityRole role = await roleManager.FindByIdAsync(id);
             List<AspNetUser> members = new List<AspNetUser>();
             List<AspNetUser> nonMembers = new List<AspNetUser>();
-            foreach (AspNetUser user in userManager.Users)
+
+            var users = await userManager.Users.ToListAsync();
+
+            foreach (AspNetUser user in users)
             {
                 var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
                 list.Add(user);
             }
+
             return View(new RoleEdit
             {
                 Role = role,
                 Members = members,
                 NonMembers = nonMembers
             });
-        }
-        [HttpPost]
-        public async Task<IActionResult> Update(RoleModification model)
-        {
-            IdentityResult result;
-            if (ModelState.IsValid)
-            {
-                foreach (string userId in model.AddIds ?? new string[] { })
-                {
-                    AspNetUser user = await userManager.FindByIdAsync(userId);
-                    if (user != null)
-                    {
-                        result = await userManager.AddToRoleAsync(user, model.RoleName);
-                        if (!result.Succeeded)
-                            Errors(result);
-                    }
-                }
-                foreach (string userId in model.DeleteIds ?? new string[] { })
-                {
-                    AspNetUser user = await userManager.FindByIdAsync(userId);
-                    if (user != null)
-                    {
-                        result = await userManager.RemoveFromRoleAsync(user, model.RoleName);
-                        if (!result.Succeeded)
-                            Errors(result);
-                    }
-                }
-            }
-
-            if (ModelState.IsValid)
-                return RedirectToAction(nameof(Index));
-            else
-                return await Update(model.RoleId);
         }
         private void Errors(IdentityResult result)
         {

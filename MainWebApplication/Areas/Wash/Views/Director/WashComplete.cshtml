@@ -1,0 +1,165 @@
+﻿@model MainWebApplication.Areas.Wash.Models.WashOrder
+<h4>Услуги на машине</h4>
+<hr/>
+<table class="table table-hover">
+            <tr>
+                <th>
+                    Услуга
+                </th>
+                 <th>
+                    Цена
+                </th>
+                <th>
+                    Ответственный мастер
+                </th>
+                <th>
+                    Зарплата
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+                    Действия
+                </th>
+            </tr>
+            @foreach (var item in ViewBag.Orders)
+            {
+                <tr>
+                    <td>
+                        @item.NameService
+                    </td>
+                    <td>
+                        @item.Price ₸
+                    </td>
+                    <td>
+                        @item.NameMaster
+                    </td>
+                    <td>
+                        @item.SalaryMaster ₸
+                    </td>
+                    <td>
+                        @item.Status
+                    </td>
+                    <td>
+                         <form asp-action="EditServiceWash" asp-route-id="@item.Id" method="get">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                        Редактировать
+                    </button>
+                </form>
+                        <form asp-action="DeleteServiceWash" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        Удалить
+                    </button>
+                </form>
+                    </td>
+                </tr>
+            }
+    </table>
+<div>
+    <h4>Заказ-наряд</h4>
+
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cars.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cars.Name)
+            @Html.DisplayFor(model => model.ModelCar.Name)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CarNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            Создал заказ-наряд
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AspNetUser.FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumberClient)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumberClient)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ClientName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ClientName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status.Name)
+        </dd>
+    </dl>
+</div>
+@if (ViewData["HaveNotReadyServices"] == null)
+{
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Выполнить работу
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Оповещания</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        В заказ-наряде есть незавершенные услуги, вы уверены что хотите сдать заказ-наряд? 
+        Зарплата начислится мастерам автоматически
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+         <form asp-action="WashComplete" asp-route-id="@Model.Id" method="post">
+        <button type="button"  data-bs-dismiss="modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#PaymentTypeModel">
+           Выполнить работу
+        </button>
+   </form>
+      </div>
+    </div>
+  </div>
+</div>
+}
+else
+{
+    <div>
+   <form asp-action="WashComplete" asp-route-id="@Model.Id" method="post">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#PaymentTypeModel">
+           Выполнить работу
+        </button>
+   </form>
+</div>
+}
+<div class="modal fade" id="PaymentTypeModel" tabindex="-1" aria-labelledby="PaymentTypeModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="PaymentTypeModel">Способ оплаты</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="form-group">
+          Сумма к оплате: @ViewBag.PaymentSumm
+      </div>
+      <div class="modal-body">
+         <div class="form-group">
+                <label asp-for="PaymentId" class="control-label"></label>
+                <select asp-for="PaymentId" class="form-control" asp-items="ViewBag.PaymentId"></select>
+                <span asp-validation-for="PaymentId" class="text-danger"></span>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+        <form asp-action="WashComplete" asp-route-id="@Model.Id" method="post">
+        <button type="submit" class="btn btn-primary">Сдать авто клиенту</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

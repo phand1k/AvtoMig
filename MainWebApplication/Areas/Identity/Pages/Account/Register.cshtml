@@ -9,14 +9,14 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
-                <input asp-for="Input.OrganizationId" minlength = "12", maxlength = "12" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.OrganizationId"></label>
-                <span asp-validation-for="Input.OrganizationId" class="text-danger"></span>
+                <input asp-for="Input.OrganizationNumber" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.OrganizationNumber"></label>
+                <span asp-validation-for="Input.OrganizationNumber" class="text-danger"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.Email"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <input asp-for="Input.PhoneNumber" id="PhoneNumber" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.PhoneNumber"></label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-floating">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
@@ -28,7 +28,7 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Регистрация</button>
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">
@@ -66,3 +66,27 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	
+		<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+		<script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+			
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-browser/0.1.0/jquery.browser.min.js"></script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/bindings/inputmask.binding.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/inputmask.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/inputmask.phone.extensions.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/jquery.inputmask.min.js"></script>
+		
+			
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+		
+<script type="text/javascript">
+			$(document).ready(function ($) {
+				$('#PhoneNumber').inputmask("+7(999)999-99-99");
+				$('#PhoneNumber').inputmask("+7(999)999-99-99");
+				$('#PhoneNumber').mask("+7(999)999-99-99");
+				$('#PhoneNumber').mask("+7(999)999-99-99");
+			});
+</script>

@@ -20,7 +20,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using MainWebApplication.Models;
+using MainWebApplication.Methods;
+using System.Net.Http;
 namespace MainWebApplication.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
@@ -47,6 +49,7 @@ namespace MainWebApplication.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
         }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -77,27 +80,16 @@ namespace MainWebApplication.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name ="Имя")]
-            public string? FirstName { get; set; }
-            [Display(Name = "Фамилия")]
-            public string? LastName { get; set; }
-            public DateTime DateOfCreated { get; set; } = DateTime.Now;
-            [Required]
-            [Display(Name = "БИН/ИИН Организации")]
-            [ForeignKey("OrganizationId")]
-            public string OrganizationId { get; set; }
-            public virtual Organization Organization { get; set; }
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Электронная почта")]
-            public string Email { get; set; }
-
+            [Required(ErrorMessage = "Введите номер телефона")]
+            [Phone]
+            [Display(Name = "Телефон")]
+            public string PhoneNumber { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Заполните пароль")]
+            [StringLength(100, ErrorMessage = "Минимум 6 символов.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]
             public string Password { get; set; }
@@ -107,52 +99,89 @@ namespace MainWebApplication.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Подтверждение пароля")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Подтверждение пароля ")]
+            [Compare("Password", ErrorMessage = "Пароль и подтверждение пароля не совпадают.")]
             public string ConfirmPassword { get; set; }
+            [Required(ErrorMessage = "Введите БИН/ИИН организации")]
+            [StringLength(12, ErrorMessage = "Ошибка. Поле должно содержать в себе 12 символов!", MinimumLength = 12)]
+            [DataType(DataType.Text)]
+            [Display(Name = "ИИН/БИН организации")]
+            public string OrganizationNumber { get; set; }
+            [Display(Name = "Пароль организации")]
+            [DataType(DataType.Password)]
+            public string OrganizationPassword { get; set; }
         }
 
-        ApplicationDbContext db;
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
+        ApplicationDbContext db;
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            var checkOrganization = db.Organization.FirstOrDefault(x => x.Number == Input.OrganizationId);
+            var checkOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationNumber == Input.OrganizationNumber);
             if (checkOrganization != null)
             {
                 if (ModelState.IsValid)
                 {
                     var user = CreateUser();
-                    user.OrganizationId = Input.OrganizationId;
-                    await _userManager.AddToRoleAsync(user, "Врач");
-                    await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                    await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                    await _userManager.AddToRoleAsync(user, "Мастер");
+                    user.OrganizationId = checkOrganization.Id;
+
+                    var phoneNumber = CorrectSymbols.CorrectMethod(Input.PhoneNumber);
+
+
+                    await _userStore.SetUserNameAsync(user, phoneNumber, CancellationToken.None);
                     var result = await _userManager.CreateAsync(user, Input.Password);
+
                     if (result.Succeeded)
                     {
+                        Random codeSMS = new Random();
+                        float key = codeSMS.Next(1000, 9999);
+
                         _logger.LogInformation("User created a new account with password.");
 
                         var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
+                            "/Account/RegisterConfirmation",
                             pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                            values: new { area = "Identity", userId = userId, code = codeSMS, returnUrl = returnUrl },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
+                        SmsActivate activate = new SmsActivate();
+                        activate.DateOfStart = DateTime.Now;
+                        activate.DateOfEnd = activate.DateOfStart.AddMinutes(5);
+                        activate.SMSCode = Convert.ToString(key);
+                        activate.PhoneNumber = phoneNumber;
+                        await db.SmsActivates.AddAsync(activate);
+                        await db.SaveChangesAsync();
+
+                        var apiUrl = "https://smsc.ru/sys/send.php";
+                        var login = "sosarlye";
+                        var password = "Ohavizz11";
+                        var phones = activate.PhoneNumber.Trim(new char[] { '+' });
+                        var message = activate.SMSCode;
+                        var url = "https://smsc.ru/sys/send.php?login=exampleLogin&psw=examplePassword&phones=" + phones + "&mes=Код активации для AvtoMig: " + message;
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
-                            return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                            using (var client = new HttpClient())
+                            {
+                                var response = await client.GetAsync(url);
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    return RedirectToPage("RegisterConfirmation", new { phoneNumber = phoneNumber, returnUrl = returnUrl });
+                                }
+                                else
+                                {
+                                    // Обработка ошибки при отправке сообщения
+                                    // Возможно, вам понадобится добавить соответствующую логику обработки ошибки
+                                }
+                            }
                         }
                         else
                         {

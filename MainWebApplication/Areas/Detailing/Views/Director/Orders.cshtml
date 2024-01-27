@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MainWebApplication.Areas.Detailing.Models.RegisterOrder>
+
+<p>
+    <a asp-action="RegisterOrder">Создать заказ-наряд</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CarNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cars.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cars.Name)
+                 @Html.DisplayFor(modelItem => item.ModelCar.Name)
+            </td>
+          <td>
+                 <form asp-action="EditOrder" asp-route-id="@item.Id" method="get">
+                    <button type="submit" class="btn btn-sm btn-outline-success">
+                        Редактировать
+                    </button>
+                </form>
+                  <form asp-action="DetailsOrder" asp-route-id="@item.Id" method="get">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                        Подробнее
+                    </button>
+                </form>
+                <form asp-action="DeleteOrder" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

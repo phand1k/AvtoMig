@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MainWebApplication.Models.ModelCar>
+
+<p>
+    <a asp-action="CreateModelCar">Создать новую модель</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Car)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            
+            <td>
+                <a asp-action="EditModelCar" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="DeleteService" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

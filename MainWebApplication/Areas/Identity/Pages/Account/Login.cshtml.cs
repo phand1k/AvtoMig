@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace MainWebApplication.Areas.Identity.Pages.Account
 {
@@ -22,11 +23,14 @@ namespace MainWebApplication.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<AspNetUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-
-        public LoginModel(SignInManager<AspNetUser> signInManager, ILogger<LoginModel> logger)
+        private ApplicationDbContext _db;
+        private UserManager<AspNetUser> _userManager;
+        public LoginModel(UserManager<AspNetUser> userMrg, SignInManager<AspNetUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext db)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _db = db;
+            _userManager = userMrg;
         }
 
         /// <summary>
@@ -65,10 +69,10 @@ namespace MainWebApplication.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Электронная почта")]
-            public string Email { get; set; }
+            [Required(ErrorMessage = "Введите номер телефона")]
+            [Phone]
+            [Display(Name = "Телефон")]
+            public string PhoneNumber { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -109,12 +113,33 @@ namespace MainWebApplication.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var phoneNumber = Input.PhoneNumber;
+                var notCorrectSymbols = new string[] { "(", ")", "-" };
+                foreach (var item in notCorrectSymbols)
+                {
+                    phoneNumber = phoneNumber.Replace(item, string.Empty);
+                }
+                var result = await _signInManager.PasswordSignInAsync(phoneNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var user = await _userManager.FindByNameAsync(phoneNumber);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Неудачная попытка входа.");
+                    return Page();
+                }
+                var organization = await _db.Organizations.FindAsync(user.OrganizationId);
+                var currentDate = DateTime.Now;
+                if (organization.EndDateSub <= currentDate)
+                {
+                    await _userManager.AccessFailedAsync(user);
+                    await _signInManager.SignOutAsync();
+                    _logger.LogWarning("User account has expired.");
+                    ModelState.AddModelError(string.Empty, "Срок действия подписки истек. Обратитесь к администратору");
+                    return Page();
+                }
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

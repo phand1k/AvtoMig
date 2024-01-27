@@ -1,0 +1,88 @@
+﻿@model MainWebApplication.Areas.Detailing.Models.RegisterOrder
+<h4>Создание заказ-наряда</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RegisterOrder">
+            <div class="form-group">
+                <label asp-for="CarNumber" class="control-label"></label>
+                <input asp-for="CarNumber" class="form-control" />
+                <span asp-validation-for="CarNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prepayment" class="control-label"></label>
+                <input asp-for="Prepayment" class="form-control" />
+                <span asp-validation-for="Prepayment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarId" class="control-label"></label>
+                <select id="CarId"  asp-for="CarId" class ="form-control" asp-items="ViewBag.CarId" >
+                    <option selected>
+                        Выберите марку авто
+                    </option>
+                    </select>
+                <span asp-validation-for="CarId" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="ModelCarId" class="control-label"></label>
+                <select id="ModelAutoId"  asp-items="@(new SelectList(""))" asp-for="ModelCarId" class ="form-control" >
+                    <option selected>
+                        Выберите модель машины
+                    </option>
+                </select>
+                <span asp-validation-for="ModelCarId" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="PhoneNumberClient" class="control-label"></label>
+                <input id="PhoneNumberClient" asp-for="PhoneNumberClient" class="form-control" />
+                <span asp-validation-for="PhoneNumberClient" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="ClientName" class="control-label"></label>
+                <input asp-for="ClientName" class="form-control" />
+                <span asp-validation-for="ClientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrepaymentTypeId" class="control-label"></label>
+                <select id="PrepaymentId"  asp-for="PrepaymentTypeId" class ="form-control" asp-items="ViewBag.PrepaymentTypes" >
+                    <option selected>
+                        Выберите способ предоплаты
+                    </option>
+                    </select>
+                <span asp-validation-for="CarId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать заказ-наряд" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="RegisterOrderList">Список заказ-нарядов</a>
+</div>
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="/js/CascadeDirector.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	
+		<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+		<script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+			
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-browser/0.1.0/jquery.browser.min.js"></script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/bindings/inputmask.binding.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/inputmask.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/inputmask.phone.extensions.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/jquery.inputmask.min.js"></script>
+		
+			
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+		
+<script type="text/javascript">
+			$(document).ready(function ($) {
+				$('#PhoneNumberClient').inputmask("+7(999)999-99-99");
+				$('#PhoneNumberClient').inputmask("+7(999)999-99-99");
+				$('#PhoneNumberClient').mask("+7(999)999-99-99");
+				$('#PhoneNumberClient').mask("+7(999)999-99-99");
+			});
+		</script>

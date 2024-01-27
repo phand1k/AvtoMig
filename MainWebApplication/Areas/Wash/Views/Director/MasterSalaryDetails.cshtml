@@ -1,0 +1,47 @@
+﻿@model MainWebApplication.Areas.Wash.Models.SalaryMasterList
+
+<div>
+    <h4>Детали зарплаты мастера</h4>
+    <hr />
+    <dl class="row">
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WashService.Service.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WashService.Service.Name)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WashService.Service.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WashService.Service.Price) ₸
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AspNetUser.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AspNetUser.FullName)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Salary)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Salary) ₸
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WashOrder.CarNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WashOrder.CarNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateOfWash)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateOfWash)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="MasterSalaryList">Назад в список</a>
+</div>

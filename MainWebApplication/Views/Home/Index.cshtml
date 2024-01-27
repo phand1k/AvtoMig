@@ -1,65 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using MainWebApplication.Areas.Identity.Data
+@model MainWebApplication.Areas.Identity.Data.AspNetUser
 @inject SignInManager<AspNetUser> SignInManager
 @inject UserManager<AspNetUser> UserManager
+@{
+    ViewData["Title"] = "Домашняя страница";
+}
 @if (SignInManager.IsSignedIn(User))
 {
-     <div class="text-center">
+    @if (Model.FirstName == null)
+    {
+        <p>Чтобы завершить настройку аккаунта перейдите по ссылке</p>
+    }
+    <div class="text-center">
     <h1 class="display-4">Добро пожаловать</h1>
     </div>
-    @if (User.IsInRole("Руководитель"))
-    {
-        <nav>
-      <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Запись</button>
-      </div>
-    </nav>
-    <hr/>
-     <div class="tab-content" id="nav-tabContent">
-       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-           <a class="btn btn-primary" href="/Director/ListUsers" role="button">Все пользователи</a>
-           <a class="btn btn-primary" href="/Director/Index" role="button">Роли пользователей</a>
-           <a class="btn btn-primary" href="/Director/ListAnalyses" role="button">Виды анализов</a>
-           <a class="btn btn-primary" href="/Director/ListServices" role="button">Виды услуг</a>
-       </div>
-    </div>
-    }
-    else if (User.IsInRole("Врач"))
-    {
-    <nav>
-      <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Запись</button>
-    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">История</button>
-    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Календарь</button>
-    <button class="nav-link" id="nav-list-tab" data-bs-toggle="tab" data-bs-target="#nav-list" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Список</button>
-    <button class="nav-link" id="nav-list-tab" data-bs-toggle="tab" data-bs-target="#nav-tasks" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Мои задачи</button>
-      </div>
-    </nav>
-    <hr/>
-     <div class="tab-content" id="nav-tabContent">
-       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-           <a class="btn btn-primary" href="/Doctor/RegisterPatient" role="button">Прикрепление</a>
-           <a class="btn btn-primary" href="/Doctor/Appointment" role="button">Прием</a>
-           <a class="btn btn-primary" href="#" role="button">Рецепт</a>
-       </div>
-       <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
-       <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
-       <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-contact-tab">
-           <a class="btn btn-primary" href="/Doctor/ListPatients" role="button">Пациенты</a>
-           <a class="btn btn-primary" href="/Doctor/AppointmentList" role="button">Записи</a>
-       </div>
-       <div class="tab-pane fade" id="nav-tasks" role="tabpanel" aria-labelledby="nav-contact-myappointments">
-           <a class="btn btn-primary" href="/Doctor/MyAppointments" role="button">Прием пациентов</a>
-       </div>
-    </div>
-    }
-    else if (User.IsInRole("Лаборант"))
-    {
-        <p>Лаборант</p>
-    }
 }
 else
 {

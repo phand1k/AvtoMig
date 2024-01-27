@@ -1,8 +1,8 @@
-﻿using MainWebApplication.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MainWebApplication.Models;
+using MainWebApplication.Areas.Detailing.Models;
+using MainWebApplication.Areas.Wash.Models;
 namespace MainWebApplication.Areas.Identity.Data;
 
 public class ApplicationDbContext : IdentityDbContext<AspNetUser>
@@ -11,15 +11,24 @@ public class ApplicationDbContext : IdentityDbContext<AspNetUser>
         : base(options)
     {
     }
-    public DbSet<Organization> Organization { get; set; }
-    public DbSet<AspNetUser> AspNetUsers { get; set; }
-    public DbSet<Patient> Patients { get; set; }
-    public DbSet<City> City { get; set; }
-    public DbSet<Analysis> Analyses { get; set; }
-    public DbSet<Male> Male { get; set; }
+    public DbSet<TelegramMessage> TelegramMessages { get; set; }
+    public DbSet<SubmitWash> SubmitWashes { get; set; }
+    public DbSet<SalaryMasterList> SalaryMasterLists { get; set; }
+    public DbSet<SmsActivate> SmsActivates { get; set; }
+    public DbSet<SalaryMaster> SalaryMasters { get; set; }
+    public DbSet<WashService> WashServices { get; set; }
+    public DbSet<WashOrder> WashOrders { get; set; }
+    public DbSet<TypeOrganization> TypeOrganizations { get; set; }
+    public DbSet<ServiceOrder> ServiceOrders { get; set; }
+    public DbSet<Status> Statuses { get; set; }
+    public DbSet<Payment> Payments { get; set; }
+    public DbSet<RegisterOrder> RegisterOrders { get; set; }
     public DbSet<Service> Services { get; set; }
-    public DbSet<Appointment> Appointments { get; set; }
-    public DbSet<Specialist> Specialists { get; set; }
+    public DbSet<ModelCar> ModelCars { get; set; }
+    public DbSet<Car> Cars { get; set; }
+    public DbSet<AspNetUser> AspNetUsers { get; set; }
+    public DbSet<City> City { get; set; }
+    public DbSet<Organization> Organizations { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

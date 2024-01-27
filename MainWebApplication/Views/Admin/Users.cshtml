@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MainWebApplication.Areas.Identity.Data.AspNetUser>
+<table class="table">
+    <thead>
+        <tr>
+             <th>
+                @Html.DisplayNameFor(model => model.NormalizedUserName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NormalizedUserName)
+            </td>
+            <td>
+                <a asp-action="Редактировать" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="DeleteServoce" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

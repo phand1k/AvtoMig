@@ -8,10 +8,8 @@ namespace MainWebApplication.Models
         [Required]
         [Display(Name="Город")]
         public string Name { get; set; }
-        public ICollection<Patient> Patients { get; set; }
         public City()
         {
-            Patients = new List<Patient>();
         }
     }
 }

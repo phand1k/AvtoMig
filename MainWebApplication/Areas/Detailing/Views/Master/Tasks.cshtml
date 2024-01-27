@@ -1,0 +1,34 @@
+﻿@model IEnumerable<MainWebApplication.Areas.Detailing.Models.ServiceOrder>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RegisterOrder.Cars.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.RegisterOrder.CarNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegisterOrder.Cars.Name)
+                @Html.DisplayFor(modelItem => item.RegisterOrder.ModelCar.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem=>item.RegisterOrder.CarNumber)
+            </td>
+            <td>
+                 <form asp-action="EditService" asp-route-id="@item.Id" method="get">
+                    <button type="submit" class="btn btn-sm btn-outline-success">
+                        Приступить к работе
+                    </button>
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

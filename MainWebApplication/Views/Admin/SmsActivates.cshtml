@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MainWebApplication.Models.SmsActivate>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SMSCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SMSCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

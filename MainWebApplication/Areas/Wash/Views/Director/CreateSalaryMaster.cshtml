@@ -1,0 +1,39 @@
+﻿@model MainWebApplication.Models.SalaryMaster
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateSalaryMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ServiceId" class="control-label"></label>
+                <select id="ServiceId"  asp-for="ServiceId" class ="form-control" asp-items="ViewBag.Services" >
+                    <option selected>
+                        Выберите услугу
+                    </option>
+                    </select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="AspNetUserId" class="control-label"></label>
+                <select id="AspNetUserId"  asp-for="AspNetUserId" class ="form-control" asp-items="ViewBag.Users" >
+                    <option selected>
+                        Выберите мастера
+                    </option>
+                    </select>
+                <span asp-validation-for="AspNetUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SalaryMasterStr" class="control-label"></label>
+                <input asp-for="SalaryMasterStr" class="form-control" />
+                <span asp-validation-for="SalaryMasterStr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

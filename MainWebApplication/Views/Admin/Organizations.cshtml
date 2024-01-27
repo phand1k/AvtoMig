@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MainWebApplication.Areas.Identity.Data.Organization>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrganizationNumber)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrganizationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelIte => item.IsDeleted)
+            </td>
+            <td>
+                <a asp-action="EditOrganization" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="DetailsOrganization" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="DeleteOrganization" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

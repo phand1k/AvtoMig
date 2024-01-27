@@ -1,0 +1,89 @@
+﻿@model MainWebApplication.Areas.Detailing.Models.ServiceOrder
+<h4>Заказ-наряды на авто</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Service.Name)
+                </th>
+                 <th>
+                    Цена
+                </th>
+                <th>
+                    Ответственный мастер
+                </th>
+                <th>
+                    Действия
+                </th>
+            </tr>
+            @foreach (var item in ViewBag.ServicesOrder)
+            {
+                <tr>
+                    <td>
+                        @item.NameService
+                    </td>
+                    <td>
+                        @item.PriceForParse
+                    </td>
+                    <td>
+                        @item.NameMaster
+                    </td>
+                    <td>
+                         <form asp-action="EditServiceOrder" asp-route-id="@item.Id" method="get">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                        Редактировать
+                    </button>
+                </form>
+                        <form asp-action="DeleteServicesOrder" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        Удалить
+                    </button>
+                </form>
+                    </td>
+                </tr>
+            }
+    </table>
+<h4>Добавление услуги для заказ-наряда</h4>
+<hr />
+     <div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddServicesOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ServiceId" class="control-label"></label>
+                <select id="ServiceId"  asp-for="ServiceId" class ="form-control" asp-items="ViewBag.Services" >
+                    <option>
+
+                    </option>
+                    </select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AspNetUserId" class="control-label"></label>
+                <select id="AspNetUserId"  asp-for="AspNetUserId" class ="form-control" asp-items="ViewBag.Users" >
+                    <option selected>
+                        Выберите мастера
+                    </option>
+                    </select>
+                <span asp-validation-for="AspNetUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input id="Price" asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SalaryMaster" class="control-label"></label>
+                <input id="SalaryMaster" asp-for="SalaryMaster" class="form-control" />
+                <span asp-validation-for="SalaryMaster" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Назад в список</a>
+</div>
+<script src="/lib/jquery/dist/jquery.js"></script>
+

@@ -1,0 +1,44 @@
+﻿@page
+@model AccountModel
+@{
+}
+<h3>@ViewData["Title"]</h3>
+<div class="row">
+    <div class="col-md-6">
+        <form id="change-password-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Input.Id" />
+            <input type="hidden" asp-for="Input.OrganizationId" />
+            <input type="hidden" asp-for="Input.DateOfCreated" />
+            <input type="hidden" asp-for="Input.AccessFailedCount" />
+            <input type="hidden" asp-for="Input.ConcurrencyStamp" />
+            <input type="hidden" asp-for="Input.PasswordHash" />
+            <input type="hidden" asp-for="Input.EmailConfirmed" />
+            <input type="hidden" asp-for="Input.FullName" />
+            <input type="hidden" asp-for="Input.LockoutEnabled" />
+            <input type="hidden" asp-for="Input.LockoutEnd" />
+            <input type="hidden" asp-for="Input.NormalizedEmail" />
+            <input type="hidden" asp-for="Input.NormalizedUserName" />
+            <input type="hidden" asp-for="Input.PhoneNumber" />
+            <input type="hidden" asp-for="Input.PhoneNumberConfirmed" />
+            <input type="hidden" asp-for="Input.SecurityStamp" />
+            <input type="hidden" asp-for="Input.TwoFactorEnabled" />
+            <input type="hidden" asp-for="Input.UserName" />
+            <div class="form-floating">
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="current-password" aria-required="true" />
+                <label asp-for="Input.FirstName" class="form-label"></label>
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.LastName" class="form-control" autocomplete="current-password" aria-required="true" />
+                <label asp-for="Input.LastName" class="form-label"></label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Подтвердить</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

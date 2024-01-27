@@ -17,10 +17,135 @@ namespace MainWebApplication.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("MainWebApplication.Areas.Detailing.Models.RegisterOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AspNetUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CarId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CarNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateofCreatedOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("FullDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ModelCarId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumberClient")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Prepayment")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrepaymentTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AspNetUserId");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("ModelCarId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("PrepaymentTypeId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("RegisterOrders");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Detailing.Models.ServiceOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AspNetUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateOfCreateServiceOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RegisterOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Salary")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SalaryMaster")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ServiceOrderPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AspNetUserId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("RegisterOrderId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("ServiceOrders");
+                });
 
             modelBuilder.Entity("MainWebApplication.Areas.Identity.Data.AspNetUser", b =>
                 {
@@ -47,6 +172,9 @@ namespace MainWebApplication.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -64,9 +192,11 @@ namespace MainWebApplication.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("OrganizationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrganizationNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -104,17 +234,30 @@ namespace MainWebApplication.Migrations
 
             modelBuilder.Entity("MainWebApplication.Areas.Identity.Data.Organization", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndDateSub")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullOrganizationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("OrganizationNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -122,34 +265,20 @@ namespace MainWebApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("StartDateSub")
+                        .HasColumnType("datetime2");
 
-                    b.ToTable("Organization");
-                });
-
-            modelBuilder.Entity("MainWebApplication.Models.Analysis", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int?>("TypeOrganizationId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OrganizationId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId");
+                    b.HasIndex("TypeOrganizationId");
 
-                    b.ToTable("Analyses");
+                    b.ToTable("Organizations");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.Appointment", b =>
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.SalaryMasterList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,27 +289,22 @@ namespace MainWebApplication.Migrations
                     b.Property<string>("AspNetUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("DateOfAppointment")
+                    b.Property<DateTime>("DateOfWash")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfCreateAppointment")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IndividualNumberPatient")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OrganizationId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("PatientId")
+                    b.Property<int?>("OrganizationId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ServiceId")
+                    b.Property<int?>("Salary")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WashOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WashServiceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -189,11 +313,184 @@ namespace MainWebApplication.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("WashOrderId");
+
+                    b.HasIndex("WashServiceId");
+
+                    b.ToTable("SalaryMasterLists");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.SubmitWash", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AspNetUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateOfAutoComplete")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SummServices")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WashOrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AspNetUserId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("WashOrderId");
+
+                    b.ToTable("SubmitWashes");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.WashOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AspNetUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CarId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CarNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfCreateWashOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("FullDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ModelCarId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumberClient")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AspNetUserId");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("ModelCarId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("WashOrders");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.WashService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AspNetUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateOfCreateServiceOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MasterSalaryInt")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SalaryMasterStr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WashOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WashServicePrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AspNetUserId");
+
+                    b.HasIndex("OrganizationId");
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("Appointments");
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("WashOrderId");
+
+                    b.ToTable("WashServices");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Models.Car", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("MainWebApplication.Models.City", b =>
@@ -213,13 +510,19 @@ namespace MainWebApplication.Migrations
                     b.ToTable("City");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.Male", b =>
+            modelBuilder.Entity("MainWebApplication.Models.ModelCar", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -227,10 +530,12 @@ namespace MainWebApplication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Male");
+                    b.HasIndex("CarId");
+
+                    b.ToTable("ModelCars");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.Patient", b =>
+            modelBuilder.Entity("MainWebApplication.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -238,48 +543,55 @@ namespace MainWebApplication.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime>("BornDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IndividualNumber")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("MaleId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("OrganizationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
+                    b.ToTable("Payments");
+                });
 
-                    b.HasIndex("MaleId");
+            modelBuilder.Entity("MainWebApplication.Models.SalaryMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AspNetUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SalaryMasterInt")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SalaryMasterStr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AspNetUserId");
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("Patients");
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("SalaryMasters");
                 });
 
             modelBuilder.Entity("MainWebApplication.Models.Service", b =>
@@ -290,21 +602,64 @@ namespace MainWebApplication.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AspNetUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateOfCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OrganizationId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Price")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AspNetUserId");
 
                     b.HasIndex("OrganizationId");
 
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.Specialist", b =>
+            modelBuilder.Entity("MainWebApplication.Models.SmsActivate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateOfEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SMSCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SmsActivates");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Models.Status", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -316,14 +671,46 @@ namespace MainWebApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OrganizationId")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("Id");
+
+                    b.ToTable("Statuses");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Models.TelegramMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId");
+                    b.ToTable("TelegramMessages");
+                });
 
-                    b.ToTable("Specialists");
+            modelBuilder.Entity("MainWebApplication.Models.TypeOrganization", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeOrganizations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -463,6 +850,82 @@ namespace MainWebApplication.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MainWebApplication.Areas.Detailing.Models.RegisterOrder", b =>
+                {
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.AspNetUser", "AspNetUser")
+                        .WithMany("RegisterOrders")
+                        .HasForeignKey("AspNetUserId");
+
+                    b.HasOne("MainWebApplication.Models.Car", "Cars")
+                        .WithMany("RegisterOrders")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainWebApplication.Models.ModelCar", "ModelCar")
+                        .WithMany("RegisterOrders")
+                        .HasForeignKey("ModelCarId");
+
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", null)
+                        .WithMany("RegisterOrders")
+                        .HasForeignKey("OrganizationId");
+
+                    b.HasOne("MainWebApplication.Models.Payment", "PrepaymentType")
+                        .WithMany("RegisterOrders")
+                        .HasForeignKey("PrepaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainWebApplication.Models.Status", "Status")
+                        .WithMany("RegisterOrders")
+                        .HasForeignKey("StatusId");
+
+                    b.Navigation("AspNetUser");
+
+                    b.Navigation("Cars");
+
+                    b.Navigation("ModelCar");
+
+                    b.Navigation("PrepaymentType");
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Detailing.Models.ServiceOrder", b =>
+                {
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.AspNetUser", "AspNetUser")
+                        .WithMany("ServiceOrders")
+                        .HasForeignKey("AspNetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
+                        .WithMany("ServiceOrders")
+                        .HasForeignKey("OrganizationId");
+
+                    b.HasOne("MainWebApplication.Areas.Detailing.Models.RegisterOrder", "RegisterOrder")
+                        .WithMany()
+                        .HasForeignKey("RegisterOrderId");
+
+                    b.HasOne("MainWebApplication.Models.Service", "Service")
+                        .WithMany("ServiceOrders")
+                        .HasForeignKey("ServiceId");
+
+                    b.HasOne("MainWebApplication.Models.Status", "Status")
+                        .WithMany("ServiceOrders")
+                        .HasForeignKey("StatusId");
+
+                    b.Navigation("AspNetUser");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("RegisterOrder");
+
+                    b.Navigation("Service");
+
+                    b.Navigation("Status");
+                });
+
             modelBuilder.Entity("MainWebApplication.Areas.Identity.Data.AspNetUser", b =>
                 {
                     b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
@@ -474,85 +937,184 @@ namespace MainWebApplication.Migrations
                     b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.Analysis", b =>
+            modelBuilder.Entity("MainWebApplication.Areas.Identity.Data.Organization", b =>
                 {
+                    b.HasOne("MainWebApplication.Models.TypeOrganization", "TypeOrganization")
+                        .WithMany("Organizations")
+                        .HasForeignKey("TypeOrganizationId");
+
+                    b.Navigation("TypeOrganization");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.SalaryMasterList", b =>
+                {
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.AspNetUser", "AspNetUser")
+                        .WithMany("SalaryMasterLists")
+                        .HasForeignKey("AspNetUserId");
+
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
+                        .WithMany("SalaryMasterLists")
+                        .HasForeignKey("OrganizationId");
+
+                    b.HasOne("MainWebApplication.Areas.Wash.Models.WashOrder", "WashOrder")
+                        .WithMany("SalaryMasterLists")
+                        .HasForeignKey("WashOrderId");
+
+                    b.HasOne("MainWebApplication.Areas.Wash.Models.WashService", "WashService")
+                        .WithMany("SalaryMasterLists")
+                        .HasForeignKey("WashServiceId");
+
+                    b.Navigation("AspNetUser");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("WashOrder");
+
+                    b.Navigation("WashService");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.SubmitWash", b =>
+                {
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.AspNetUser", "AspNetUser")
+                        .WithMany()
+                        .HasForeignKey("AspNetUserId");
+
+                    b.HasOne("MainWebApplication.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId");
+
+                    b.HasOne("MainWebApplication.Areas.Wash.Models.WashOrder", "WashOrder")
+                        .WithMany("SubmitWashes")
+                        .HasForeignKey("WashOrderId");
+
+                    b.Navigation("AspNetUser");
+
+                    b.Navigation("Payment");
+
+                    b.Navigation("WashOrder");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.WashOrder", b =>
+                {
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.AspNetUser", "AspNetUser")
+                        .WithMany("WashOrders")
+                        .HasForeignKey("AspNetUserId");
+
+                    b.HasOne("MainWebApplication.Models.Car", "Cars")
+                        .WithMany("WashOrders")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainWebApplication.Models.ModelCar", "ModelCar")
+                        .WithMany("WashOrders")
+                        .HasForeignKey("ModelCarId");
+
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
+                        .WithMany("WashOrders")
+                        .HasForeignKey("OrganizationId");
+
+                    b.HasOne("MainWebApplication.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId");
+
+                    b.HasOne("MainWebApplication.Models.Status", "Status")
+                        .WithMany("WashOrders")
+                        .HasForeignKey("StatusId");
+
+                    b.Navigation("AspNetUser");
+
+                    b.Navigation("Cars");
+
+                    b.Navigation("ModelCar");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("Payment");
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.WashService", b =>
+                {
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.AspNetUser", "AspNetUser")
+                        .WithMany()
+                        .HasForeignKey("AspNetUserId");
+
                     b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId");
 
+                    b.HasOne("MainWebApplication.Models.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainWebApplication.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
+
+                    b.HasOne("MainWebApplication.Areas.Wash.Models.WashOrder", "WashOrder")
+                        .WithMany("WashServices")
+                        .HasForeignKey("WashOrderId");
+
+                    b.Navigation("AspNetUser");
+
                     b.Navigation("Organization");
+
+                    b.Navigation("Service");
+
+                    b.Navigation("Status");
+
+                    b.Navigation("WashOrder");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.Appointment", b =>
+            modelBuilder.Entity("MainWebApplication.Models.ModelCar", b =>
+                {
+                    b.HasOne("MainWebApplication.Models.Car", "Car")
+                        .WithMany("ModelCars")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Models.SalaryMaster", b =>
                 {
                     b.HasOne("MainWebApplication.Areas.Identity.Data.AspNetUser", "AspNetUser")
-                        .WithMany("Appointments")
-                        .HasForeignKey("AspNetUserId");
+                        .WithMany("SalaryMasters")
+                        .HasForeignKey("AspNetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
-                        .WithMany("Appointments")
+                        .WithMany("SalaryMasters")
                         .HasForeignKey("OrganizationId");
 
-                    b.HasOne("MainWebApplication.Models.Patient", "Patient")
-                        .WithMany("Appointments")
-                        .HasForeignKey("PatientId");
-
                     b.HasOne("MainWebApplication.Models.Service", "Service")
-                        .WithMany("Appointments")
+                        .WithMany("SalaryMasters")
                         .HasForeignKey("ServiceId");
 
                     b.Navigation("AspNetUser");
 
                     b.Navigation("Organization");
 
-                    b.Navigation("Patient");
-
                     b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("MainWebApplication.Models.Patient", b =>
-                {
-                    b.HasOne("MainWebApplication.Models.City", "City")
-                        .WithMany("Patients")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MainWebApplication.Models.Male", "Male")
-                        .WithMany("Patients")
-                        .HasForeignKey("MaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
-                        .WithMany("Patients")
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Male");
-
-                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("MainWebApplication.Models.Service", b =>
                 {
-                    b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.AspNetUser", null)
+                        .WithMany("Services")
+                        .HasForeignKey("AspNetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", null)
                         .WithMany("Services")
                         .HasForeignKey("OrganizationId");
-
-                    b.Navigation("Organization");
-                });
-
-            modelBuilder.Entity("MainWebApplication.Models.Specialist", b =>
-                {
-                    b.HasOne("MainWebApplication.Areas.Identity.Data.Organization", "Organization")
-                        .WithMany("Specialists")
-                        .HasForeignKey("OrganizationId");
-
-                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -608,40 +1170,90 @@ namespace MainWebApplication.Migrations
 
             modelBuilder.Entity("MainWebApplication.Areas.Identity.Data.AspNetUser", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("RegisterOrders");
+
+                    b.Navigation("SalaryMasterLists");
+
+                    b.Navigation("SalaryMasters");
+
+                    b.Navigation("ServiceOrders");
+
+                    b.Navigation("Services");
+
+                    b.Navigation("WashOrders");
                 });
 
             modelBuilder.Entity("MainWebApplication.Areas.Identity.Data.Organization", b =>
                 {
-                    b.Navigation("Appointments");
-
                     b.Navigation("AspNetUsers");
 
-                    b.Navigation("Patients");
+                    b.Navigation("RegisterOrders");
+
+                    b.Navigation("SalaryMasterLists");
+
+                    b.Navigation("SalaryMasters");
+
+                    b.Navigation("ServiceOrders");
 
                     b.Navigation("Services");
 
-                    b.Navigation("Specialists");
+                    b.Navigation("WashOrders");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.City", b =>
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.WashOrder", b =>
                 {
-                    b.Navigation("Patients");
+                    b.Navigation("SalaryMasterLists");
+
+                    b.Navigation("SubmitWashes");
+
+                    b.Navigation("WashServices");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.Male", b =>
+            modelBuilder.Entity("MainWebApplication.Areas.Wash.Models.WashService", b =>
                 {
-                    b.Navigation("Patients");
+                    b.Navigation("SalaryMasterLists");
                 });
 
-            modelBuilder.Entity("MainWebApplication.Models.Patient", b =>
+            modelBuilder.Entity("MainWebApplication.Models.Car", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("ModelCars");
+
+                    b.Navigation("RegisterOrders");
+
+                    b.Navigation("WashOrders");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Models.ModelCar", b =>
+                {
+                    b.Navigation("RegisterOrders");
+
+                    b.Navigation("WashOrders");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Models.Payment", b =>
+                {
+                    b.Navigation("RegisterOrders");
                 });
 
             modelBuilder.Entity("MainWebApplication.Models.Service", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("SalaryMasters");
+
+                    b.Navigation("ServiceOrders");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Models.Status", b =>
+                {
+                    b.Navigation("RegisterOrders");
+
+                    b.Navigation("ServiceOrders");
+
+                    b.Navigation("WashOrders");
+                });
+
+            modelBuilder.Entity("MainWebApplication.Models.TypeOrganization", b =>
+                {
+                    b.Navigation("Organizations");
                 });
 #pragma warning restore 612, 618
         }

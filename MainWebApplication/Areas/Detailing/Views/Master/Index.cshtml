@@ -1,0 +1,29 @@
+﻿    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Услуги</button>
+    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Заказ-наряд</button>
+    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Календарь</button>
+    <button class="nav-link" id="nav-list-tab" data-bs-toggle="tab" data-bs-target="#nav-list" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Список</button>
+    <button class="nav-link" id="nav-list-tab" data-bs-toggle="tab" data-bs-target="#nav-tasks" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Организация</button>
+      </div>
+    </nav>
+    <hr/>
+     <div class="tab-content" id="nav-tabContent">
+       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+           <a class="btn btn-primary" href="/Detailing/Director/ServicesList" role="button">Список услуг</a>
+           <a class="btn btn-primary" href="/Detailing/Director/CreateService" role="button">Создание услуги</a>
+       </div>
+       <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+           <a class="btn btn-primary" href="/Detailing/Director/RegisterOrder" role="button">Создать заказ-наряд</a>
+           <a class="btn btn-primary" href="/Detailing/Director/Orders" role="button">Список заказ-нарядов</a>
+           <a class="btn btn-primary" href="/Detailing/Director/DeletedOrders" role="button">Удаленные заказ-наряды</a>
+       </div>
+       <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-contact-tab">
+           <a class="btn btn-primary" href="/Detailing/Director/ListPatients" role="button">Пациенты</a>
+           <a class="btn btn-primary" href="/Detailing/Director/AppointmentList" role="button">Записи</a>
+       </div>
+       <div class="tab-pane fade" id="nav-tasks" role="tabpanel" aria-labelledby="nav-organization">
+           <a class="btn btn-primary" href="/Detailing/Director/ListUsers" role="button">Пользователи организации</a>
+           <a class="btn btn-primary" href="/Detailing/Director/MyOrganization" role="button">Моя организация</a>
+       </div>
+    </div>

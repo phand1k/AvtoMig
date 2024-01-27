@@ -1,0 +1,57 @@
+﻿@model MainWebApplication.Areas.Detailing.Models.RegisterOrder
+@{
+    bool isName = true;
+    if (Model.AspNetUser.FirstName == null || Model.AspNetUser.LastName == null)
+    {
+        isName = false;
+    }
+}
+<div>
+    <h4>Заказ-наряд</h4>
+    <hr />
+    <dl class="row">
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cars.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cars.Name)
+            @Html.DisplayFor(model => model.ModelCar.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CarNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarNumber)
+        </dd>
+        <dt class = "col-sm-2">
+           Создал заказ-наряд
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AspNetUser.FirstName)
+             @Html.DisplayFor(model => model.AspNetUser.LastName)
+             @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateofCreatedOrder)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateofCreatedOrder)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Prepayment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Prepayment)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PrepaymentType.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PrepaymentType.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditOrder" asp-route-id="@Model?.Id">Редактировать</a> |
+    <a asp-action="Orders">Назад в список</a>
+</div>

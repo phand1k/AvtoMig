@@ -19,6 +19,8 @@ namespace  MainWebApplication.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string Index => "Index";
         public static string AcceptProfile => "AcceptProfile";
+        public static string Account => "Account";
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -69,6 +71,11 @@ namespace  MainWebApplication.Areas.Identity.Pages.Account.Manage
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string AcceptProfileClass(ViewContext viewContext) => PageNavClass(viewContext, AcceptProfile);
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        public static string AccountClass(ViewContext viewContext) => PageNavClass(viewContext, Account);
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
